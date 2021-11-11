@@ -186,9 +186,11 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
         {
             /////DisplayResourceNAMessageBox();
             PAINTSTRUCT ps;
+            RECT Rect;
+            GetClientRect(hWnd, &Rect);
+            InvalidateRect(hWnd, &Rect, FALSE);
             HDC hdc = BeginPaint(hWnd, &ps);
-			RECT Rect;
-			GetClientRect(hWnd, &Rect);
+
 
             std::wstringstream wss;
             std::string str;
@@ -205,7 +207,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
                 message_vec.pop_back();
                 message_vec.push_back(result);
             }
-            InvalidateRect(hWnd, &Rect, FALSE);
+
             for (int i = 1; i < message_vec.size() + 1; ++i) {
                 if (i > 10) {
                     TextOut(hdc, (Rect.right - Rect.left) / 2 + 50, (Rect.bottom - Rect.top - 100) - 25 * (i-10), message_vec[i - 1], 3);
